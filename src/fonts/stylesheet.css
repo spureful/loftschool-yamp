@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('subset-FiraSans-Regular.woff2') format('woff2'),
+        url('subset-FiraSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('subset-FiraSans-Light.woff2') format('woff2'),
+        url('subset-FiraSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('subset-FiraSans-Medium.woff2') format('woff2'),
+        url('subset-FiraSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
