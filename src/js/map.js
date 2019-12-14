@@ -109,7 +109,7 @@ function init() {
             }, {
                 hasBalloon: false,
                 iconLayout: 'default#image',
-                iconImageHref: '../img/placemark-active.png',
+                iconImageHref: './img/placemark-active.png',
                 iconImageSize: [24, 36],
                 draggable: false,
             });
