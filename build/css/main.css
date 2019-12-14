@@ -480,7 +480,7 @@ p {
     display: inline-block;
     width: 15px;
     height: 15px;
-    background-image: url(../../img/title-icon.png);
+    background-image: url(../img/title-icon.png);
     background-repeat: no-repeat;
     vertical-align: middle; }
 
@@ -604,7 +604,7 @@ p {
 .cluster_review {
   font-size: 18px;
   color: #4f4f4f;
-  margin-bottom: 50px; }
+  margin-bottom: 30px; }
 
 .cluster_date {
   margin-top: auto;
