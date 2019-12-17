@@ -1,25 +1,28 @@
 ymaps.ready(init);
-var myMap;
-var geoObjects = [];
-var clusterer;
 
-let isBaloon = true; // флаг для открытия баллуна плейсмарка или кластера
 
-let storage = localStorage;
+function init() {
 
-let currentPlace; //определяет координаты по нажатию на плейсмарк
-let idS; //берет ID нажатых кластера/плейсмарка
+    let myMap;
+    let clusterer;
+    const geoObjects = [];
 
-const currentPlacemark = {
+    let isBaloon = true; // флаг для открытия баллуна плейсмарка или кластера
+
+    const storage = localStorage;
+
+    let currentPlace; //определяет координаты по нажатию на плейсмарк
+    let idS; //берет ID нажатых кластера/плейсмарка
+
+    const currentPlacemark = {
     address: '',
     cords: [],
     text: 'Отзывов пока нет...',
     name: '',
     place: ''
-};
-const allPlacemarks = JSON.parse(storage.data || '[]');
-
-function init() {
+    };
+    const allPlacemarks = JSON.parse(storage.data || '[]');
+    
     myMap = new ymaps.Map("map", {
         center: [59.929159198358875, 30.299870112622873],
         zoom: 12,
@@ -59,9 +62,15 @@ function init() {
             </div> 
             <div class="modal__form form">
                 <h3 class="form__title">ВАШ ОТЗЫВ</h3>
-                <input type="text" class="form__input" id="name"placeholder="Ваше имя">
+                <label>
+                    <input type="text" class="form__input" id="name"placeholder="Ваше имя">
+                </label>
+                <label>
                 <input type="text" class="form__input" id="place" placeholder="Укажите место">
+                </label>
+                <label>
                 <textarea class="form__input form__input--ta" id="text" placeholder="Поделитесь впечатлениями"></textarea>
+                </label>
                 <button class="form__btn">Add</button>
             </div>  
         </div>`)
@@ -130,7 +139,7 @@ function init() {
         const geoObjectState = clusterer.getObjectState(e.get('target'));
        // Проверяем, находится ли объект в видимой области карты.
         if (geoObjectState.isShown) {
-            // Если объект попадает в кластер, открываем балун кластера с нужным выбранным объектом.
+            // Если объект не попадает в кластер, открываем балун плейсмарка.
             if (!geoObjectState.isClustered) {
                 isBaloon = true;
                 myMap.balloon.close();
@@ -138,8 +147,6 @@ function init() {
                 idS = e.get('target');
 
             }
-            //???почему не срабатывает else
-
         }
         if (!isBaloon) {
             idS = (e.get('target')).getGeoObjects();
@@ -158,8 +165,9 @@ function init() {
             }
         //каcтомизируем лейаут баллуна (для сохраения автопэна)
         if (isBaloon) {
+            const modalLayout = document.querySelector('.modal');
             (function baloonStyle() {
-                const modalLayout = document.querySelector('.modal');
+                
                 const modalParent = modalLayout.parentNode.parentNode;
 
                 modalParent.style.width = '100%';
@@ -240,11 +248,11 @@ function init() {
 
             btnClose.addEventListener('click', function () {
                 myMap.balloon.close();
-            })
+            });
 
 
             btnAdd.addEventListener('click', function () {
-
+                if (inputName.value.length >= 3 && inputPlace.value.length >= 3 && inputText.value.length >= 3) {
                 myMap.geoObjects.remove(clusterer);
                 reviews.textContent = '';
 
@@ -264,6 +272,7 @@ function init() {
                 allPlacemarks.push(clone);
 
                 createCluster();
+                console.log(inputName.value.length)
 
                 for (let i = 0; i < allPlacemarks.length; i++) {
                     geoObjects[i].id = allPlacemarks[i].id;
@@ -274,13 +283,38 @@ function init() {
                 inputText.value = '';
 
                 storage.data = JSON.stringify(allPlacemarks);
-//              storage.data = ''; //разкомментить. чтобы очистить локалсторадж
+      //              storage.data = ''; //разкомментить. чтобы очистить локалсторадж
+            } else {
+                const alertError = document.createElement('div');
+                const alertBtn = document.createElement('button');
+
+                function validForm() {
+                   
+                    alertBtn.textContent = 'ok';
+                    alertError.classList.add('form-error');
+                    alertBtn.classList.add('form-error-btn');
+                    alertError.textContent = "Поля должны содержать больше трёх символов";
+                    alertError.appendChild(alertBtn);
+                    modalLayout.appendChild(alertError);
+
+                                        
+                    }
+            
+                validForm();
+
+                alertBtn.addEventListener('click', function() {
+                    modalLayout.removeChild(alertError);
+                })
+             
+
+            }
+
             });
         }
 
         if (!isBaloon) {
 
-            const clusterLink = document.querySelector('.cluster_link')
+            const clusterLink = document.querySelector('.cluster_link');
 
             document.addEventListener('click', function (e) {
                 if (e.target.tagName == "A") {

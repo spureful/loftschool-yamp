@@ -454,7 +454,8 @@ p {
   background-color: #fff;
   border-radius: 15px;
   min-width: 350px;
-  min-height: 300px; }
+  min-height: 300px;
+  position: relative; }
 
 .modal__header {
   background-color: #ff8663;
@@ -578,12 +579,13 @@ p {
   border-radius: 30px;
   border: 1px solid #c4c4c4;
   margin-bottom: 15px;
-  color: #9f9f9f; }
+  color: #9f9f9f;
+  width: 100%; }
 
 .form__input--ta {
   resize: none; }
 
-.form__btn {
+.form__btn, .form-error-btn {
   display: inline-block;
   background-color: #ff8663;
   color: #fff;
@@ -609,3 +611,36 @@ p {
 .cluster_date {
   margin-top: auto;
   text-align: right; }
+
+.form-error {
+  font-size: 18px;
+  color: #ff8663;
+  position: absolute;
+  width: 100%;
+  min-height: 300px;
+  padding: 20px 50px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid #000;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%); }
+
+.form-error-btn {
+  -ms-flex-item-align: center;
+  align-self: center; }

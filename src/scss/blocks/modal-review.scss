@@ -4,6 +4,7 @@
     min-width: 350px;
     min-height: 300px;
   
+    position: relative;
     
 }
 
@@ -155,6 +156,7 @@
     border: 1px solid #c4c4c4;
     margin-bottom: 15px;
     color: #9f9f9f;
+    width: 100%;
 }
 
 .form__input--ta {
@@ -195,3 +197,32 @@
     margin-top: auto;
  text-align: right;
 }
+
+.form-error {
+    font-size: 18px;
+    color:#ff8663;
+    position: absolute;
+    width: 100%;
+    min-height: 300px;
+
+    padding: 20px 50px;
+    background-color: rgba(#fff, .7);
+    border: 1px solid #000;
+    border-radius: 5px;    
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+   bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.form-error-btn {
+@extend .form__btn;
+align-self: center;
+}
+
