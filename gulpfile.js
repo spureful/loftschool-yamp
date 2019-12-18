@@ -16,7 +16,6 @@ const reload = browserSync.reload;
 const webpack = require("webpack");
 const $webpack = require("webpack-stream");
 
-
 gulp.task('pug', function () {
     return gulp.src("./src/pug/*.pug")
         .pipe(pug({
@@ -28,9 +27,7 @@ gulp.task('pug', function () {
             stream: true
         }));
 
-
 });
-
 
 gulp.task('sass', function () {
     return gulp.src(`./src/scss/*.scss`)
@@ -47,7 +44,6 @@ gulp.task('sass', function () {
         }));
 });
 
-
 // собираем скрипты webpack
 gulp.task("scripts", () => {
   return gulp
@@ -57,7 +53,6 @@ gulp.task("scripts", () => {
     .pipe(gulp.dest(`build/js/`))
     .pipe(reload({ stream: true }));
 });
-
 
 gulp.task('imagemin', () => 
     gulp.src(`./src/img/**/*`)

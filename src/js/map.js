@@ -1,6 +1,5 @@
 ymaps.ready(init);
 
-
 function init() {
 
     let myMap;
@@ -11,19 +10,19 @@ function init() {
 
     const storage = localStorage;
 
-    let currentPlace; //определяет координаты по нажатию на плейсмарк
-    let idS; //берет ID нажатых кластера/плейсмарка
+    let currentPlace; // определяет координаты по нажатию на плейсмарк
+    let idS; // берет ID нажатых кластера/плейсмарка
 
     const currentPlacemark = {
-    address: '',
-    cords: [],
-    text: 'Отзывов пока нет...',
-    name: '',
-    place: ''
+        address: '',
+        cords: [],
+        text: 'Отзывов пока нет...',
+        name: '',
+        place: ''
     };
     const allPlacemarks = JSON.parse(storage.data || '[]');
-    
-    myMap = new ymaps.Map("map", {
+
+    myMap = new ymaps.Map('map', {
         center: [59.929159198358875, 30.299870112622873],
         zoom: 12,
         controls: ['zoomControl'],
@@ -41,7 +40,9 @@ function init() {
 
         ymaps.geocode(coords).then(function (res) {
             const firstGeoObject = res.geoObjects.get(0);
+
             address = firstGeoObject.getAddressLine();
+
             return address;
         }).then(function (data) {
             currentPlacemark.address = data;
@@ -49,7 +50,7 @@ function init() {
         })
     });
 
-    //создание балуна-отзывов   
+    // создание балуна-отзывов
     function baloonrewiew(coords) {
         const MyBalloonLayout = ymaps.templateLayoutFactory.createClass(`  
         <div class="modal">
@@ -61,23 +62,18 @@ function init() {
                 Отзывов пока нет...
             </div> 
             <div class="modal__form form">
-                <h3 class="form__title">ВАШ ОТЗЫВ</h3>
-                <label>
-                    <input type="text" class="form__input" id="name"placeholder="Ваше имя">
-                </label>
-                <label>
-                <input type="text" class="form__input" id="place" placeholder="Укажите место">
-                </label>
-                <label>
-                <textarea class="form__input form__input--ta" id="text" placeholder="Поделитесь впечатлениями"></textarea>
-                </label>
+                <h3 class="form__title">ВАШ ОТЗЫВ</h3>                
+                <input type="text" class="form__input" id="name"placeholder="Ваше имя">                
+                <input type="text" class="form__input" id="place" placeholder="Укажите место">              
+                <textarea class="form__input form__input--ta" id="text" placeholder="Поделитесь впечатлениями">
+                </textarea>               
                 <button class="form__btn">Add</button>
             </div>  
         </div>`)
 
         if (!myMap.balloon.isOpen()) {
             myMap.balloon.open(coords, {}, {
-                balloonContentHeader: "",
+                balloonContentHeader: '',
                 contentLayout: MyBalloonLayout,
                 closeButton: false
             });
@@ -86,12 +82,12 @@ function init() {
         }
     }
 
-    //кластер
+    // кластер
     function createCluster() {
-        Data = new Date();
-        Day = Data.getDate();
-        Month = Data.getMonth();
-        Year = Data.getFullYear();
+        let Data = new Date();
+        let Day = Data.getDate();
+        let Month = Data.getMonth();
+        let Year = Data.getFullYear();
 
         const customItemClusterContent = ymaps.templateLayoutFactory.createClass(
             `<div class="modal-cluster"> 
@@ -129,7 +125,7 @@ function init() {
     }
     createCluster();
 
-    //клик по геообъектам
+    // клик по геообъектам
     myMap.geoObjects.events.add('click', function (e) {
         isBaloon = false;
         currentPlace = e.get('coords');
@@ -137,7 +133,8 @@ function init() {
         
         // Получим данные о состоянии объекта внутри кластера.
         const geoObjectState = clusterer.getObjectState(e.get('target'));
-       // Проверяем, находится ли объект в видимой области карты.
+
+        // Проверяем, находится ли объект в видимой области карты.
         if (geoObjectState.isShown) {
             // Если объект не попадает в кластер, открываем балун плейсмарка.
             if (!geoObjectState.isClustered) {
@@ -153,19 +150,20 @@ function init() {
         }
     });
     
-    //клик по баллуну  
-    myMap.balloon.events.add('open', function (e) {
-        Data = new Date();
-        Day = Data.getDate();
-        Month = Data.getMonth();
-        Year = Data.getFullYear();
+    // клик по баллуну  
+    myMap.balloon.events.add('open', function() {
+        let Data = new Date();
+        let Day = Data.getDate();
+        let Month = Data.getMonth();
+        let Year = Data.getFullYear();
         
         for (let i = 0; i < allPlacemarks.length; i++) {
             geoObjects[i].id = allPlacemarks[i].id;
-            }
-        //каcтомизируем лейаут баллуна (для сохраения автопэна)
+        }
+        // каcтомизируем лейаут баллуна (для сохраения автопэна)
         if (isBaloon) {
             const modalLayout = document.querySelector('.modal');
+
             (function baloonStyle() {
                 
                 const modalParent = modalLayout.parentNode.parentNode;
@@ -180,7 +178,7 @@ function init() {
                 modalParent.parentNode.parentNode.nextSibling.style.display = 'none';
             })();
             
-            //элементы баллуна плейсмарка
+            // элементы баллуна плейсмарка
             const btnClose = document.querySelector('.modal__close');
             const modalTitle = document.querySelector('.modal__title')
             const inputName = document.querySelector('#name');
@@ -190,16 +188,15 @@ function init() {
             const reviews = document.querySelector('.modal__reviews');
             const reviewBlock = document.createElement('div');
 
-            //сбрасываем содержимое и заполняем нужным
+            // сбрасываем содержимое и заполняем нужным
             modalTitle.textContent = currentPlacemark.address;
             reviews.innerHTML = '';
             reviews.textContent = 'Отзывов пока нет';
 
-            if (currentPlace) {
-            
+            if (currentPlace) {         
                     
                 if (idS.length > 0) {
-                    for (id of idS) {
+                    for (let id of idS) {
                         for (let i = 0; i < allPlacemarks.length; i++) {
                             if (id.id == allPlacemarks[i].id) {
                                 reviews.textContent = '';
@@ -220,8 +217,8 @@ function init() {
 
             }
 
+            // eslint-disable-next-line no-inner-declarations
             function createBlockReview(name, place, text) {
-
                 const reviewName = document.createElement('span');
                 const reviewPlace = document.createElement('span');
                 const reviewText = document.createElement('p');
@@ -245,79 +242,73 @@ function init() {
                 reviews.appendChild(reviewBlock);
             }
 
-
             btnClose.addEventListener('click', function () {
                 myMap.balloon.close();
             });
 
-
             btnAdd.addEventListener('click', function () {
                 if (inputName.value.length >= 3 && inputPlace.value.length >= 3 && inputText.value.length >= 3) {
-                myMap.geoObjects.remove(clusterer);
-                reviews.textContent = '';
+                    myMap.geoObjects.remove(clusterer);
+                    reviews.textContent = '';
 
-                createBlockReview(inputName.value, inputPlace.value, inputText.value);
+                    createBlockReview(inputName.value, inputPlace.value, inputText.value);
 
-                currentPlacemark.name = inputName.value;
-                currentPlacemark.place = inputPlace.value;
-                currentPlacemark.text = inputText.value;
-                currentPlacemark.id = Math.random().toString(36).substr(2, 9);
+                    currentPlacemark.name = inputName.value;
+                    currentPlacemark.place = inputPlace.value;
+                    currentPlacemark.text = inputText.value;
+                    currentPlacemark.id = Math.random().toString(36).substr(2, 9);
                 
-                const clone = {}; // новый пустой объект
-                // копируем в него все свойства currentPlacemark
-                for (let key in currentPlacemark) {
-                    clone[key] = currentPlacemark[key];
-                }
+                    const clone = {}; // новый пустой объект
 
-                allPlacemarks.push(clone);
+                    // копируем в него все свойства currentPlacemark
+                    // eslint-disable-next-line guard-for-in
+                    for (let key in currentPlacemark) {
+                        clone[key] = currentPlacemark[key];
+                    }
 
-                createCluster();
-                console.log(inputName.value.length)
+                    allPlacemarks.push(clone);
 
-                for (let i = 0; i < allPlacemarks.length; i++) {
-                    geoObjects[i].id = allPlacemarks[i].id;
-                }
+                    createCluster();
+                    console.log(inputName.value.length)
+
+                    for (let i = 0; i < allPlacemarks.length; i++) {
+                        geoObjects[i].id = allPlacemarks[i].id;
+                    }
                 
-                inputName.value = '';
-                inputPlace.value = '';
-                inputText.value = '';
+                    inputName.value = '';
+                    inputPlace.value = '';
+                    inputText.value = '';
 
-                storage.data = JSON.stringify(allPlacemarks);
-      //              storage.data = ''; //разкомментить. чтобы очистить локалсторадж
-            } else {
-                const alertError = document.createElement('div');
-                const alertBtn = document.createElement('button');
-
-                function validForm() {
-                   
-                    alertBtn.textContent = 'ok';
-                    alertError.classList.add('form-error');
-                    alertBtn.classList.add('form-error-btn');
-                    alertError.textContent = "Поля должны содержать больше трёх символов";
-                    alertError.appendChild(alertBtn);
-                    modalLayout.appendChild(alertError);
-
-                                        
+                    storage.data = JSON.stringify(allPlacemarks);
+                    //   storage.data = ''; //разкомментить. чтобы очистить локалсторадж
+                } else {
+                    const alertError = document.createElement('div');
+                    const alertBtn = document.createElement('button');
+                    
+                    // eslint-disable-next-line no-inner-declarations
+                    function validForm() {
+                        alertBtn.textContent = 'ok';
+                        alertError.classList.add('form-error');
+                        alertBtn.classList.add('form-error-btn');
+                        alertError.textContent = 'Поля должны содержать больше трёх символов';
+                        alertError.appendChild(alertBtn);
+                        modalLayout.appendChild(alertError);                                        
                     }
             
-                validForm();
+                    validForm();
 
-                alertBtn.addEventListener('click', function() {
-                    modalLayout.removeChild(alertError);
-                })
-             
-
-            }
+                    alertBtn.addEventListener('click', function() {
+                        modalLayout.removeChild(alertError);
+                    });
+                }
 
             });
         }
 
         if (!isBaloon) {
 
-            const clusterLink = document.querySelector('.cluster_link');
-
             document.addEventListener('click', function (e) {
-                if (e.target.tagName == "A") {
+                if (e.target.tagName == 'A') {
                     myMap.balloon.close();
                     baloonrewiew(currentPlace);
                     isBaloon = true;
@@ -326,4 +317,3 @@ function init() {
         }
     });
 }
-

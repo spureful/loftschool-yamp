@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack --mode development"
+    "dev": "webpack --mode development",
+    "codestyle": "eslint src/js"
   },
   "author": "Anna Sysoeva",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.24.7",
     "del": "^3.0.0",
+    "eslint": "^6.7.2",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-cheerio": "^0.6.3",
